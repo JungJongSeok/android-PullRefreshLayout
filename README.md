@@ -15,8 +15,15 @@ This component like SwipeRefreshLayout, it is more beautiful than SwipeRefreshLa
 Add dependency.
 
 ```
+allprojects {
+    repositories {
+        ...
+        maven { url 'https://jitpack.io' }
+    }
+}
+
 dependencies {
-    compile 'com.baoyz.pullrefreshlayout:library:1.2.0'
+    implementation 'com.github.JungJongSeok:android-PullRefreshLayout:v1.0.0'
 }
 ```
 
@@ -46,6 +53,24 @@ layout.setOnRefreshListener(new PullRefreshLayout.OnRefreshListener() {
     @Override
     public void onRefresh() {
         // start refresh
+    }
+});
+
+// listen refresh state event
+layout.setOnRefreshStateListener(new PullRefreshLayout.OnRefreshStateListener() {
+    @Override
+    public void onRefresh() {
+        // doing refresh
+    }
+
+    @Override
+    public void onFinish() {
+        // do finish
+    }
+
+    @Override
+    public void onCancel() {
+        // do cancel
     }
 });
 
