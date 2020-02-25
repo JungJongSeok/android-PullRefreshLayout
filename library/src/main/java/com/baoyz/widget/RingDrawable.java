@@ -11,6 +11,7 @@ import android.util.TypedValue;
 
 /**
  * Created by baoyz on 14/11/2.
+ * #see https://github.com/baoyongzhang/android-PullRefreshLayout
  */
 class RingDrawable extends RefreshDrawable {
 
@@ -32,7 +33,7 @@ class RingDrawable extends RefreshDrawable {
         super(context, layout);
         mPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
         mPaint.setStyle(Paint.Style.STROKE);
-        mPaint.setStrokeWidth(dp2px(3));
+        mPaint.setStrokeWidth(dp2px(2));
         mPaint.setStrokeCap(Paint.Cap.ROUND);
         mPath = new Path();
     }
@@ -40,7 +41,7 @@ class RingDrawable extends RefreshDrawable {
     @Override
     public void setPercent(float percent) {
         mPaint.setColor(evaluate(percent, mColorSchemeColors[0], mColorSchemeColors[1]));
-        mAngle = 340 * percent;
+        mAngle = 180 * percent;
     }
 
     @Override
@@ -90,7 +91,7 @@ class RingDrawable extends RefreshDrawable {
         mWidth = getRefreshLayout().getFinalOffset();
         mHeight = mWidth;
         mBounds = new RectF(bounds.width() / 2 - mWidth / 2, bounds.top, bounds.width() / 2 + mWidth / 2, bounds.top + mHeight);
-        mBounds.inset(dp2px(15), dp2px(15));
+        mBounds.inset(dp2px(26), dp2px(26));
     }
 
     @Override

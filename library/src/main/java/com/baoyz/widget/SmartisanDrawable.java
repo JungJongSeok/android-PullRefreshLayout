@@ -33,6 +33,7 @@ import android.util.TypedValue;
 
 /**
  * android-PullRefreshLayout
+ * #see https://github.com/baoyongzhang/android-PullRefreshLayout
  * Created by baoyz on 15/9/20.
  */
 public class SmartisanDrawable extends RefreshDrawable {

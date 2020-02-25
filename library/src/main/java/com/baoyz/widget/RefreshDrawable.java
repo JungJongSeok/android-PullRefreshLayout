@@ -8,6 +8,7 @@ import android.graphics.drawable.Drawable;
 
 /**
  * Created by baoyz on 14/10/29.
+ * #see https://github.com/baoyongzhang/android-PullRefreshLayout
  */
 public abstract class RefreshDrawable extends Drawable implements Drawable.Callback, Animatable {
 

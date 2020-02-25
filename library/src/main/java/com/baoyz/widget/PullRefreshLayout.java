@@ -22,11 +22,12 @@ import java.security.InvalidParameterException;
 
 /**
  * Created by baoyz on 14/10/30.
+ * #see https://github.com/baoyongzhang/android-PullRefreshLayout
  */
 public class PullRefreshLayout extends ViewGroup {
 
     private static final float DECELERATE_INTERPOLATION_FACTOR = 2f;
-    private static final int DRAG_MAX_DISTANCE = 64;
+    private static final int DRAG_MAX_DISTANCE = 80;
     private static final int INVALID_POINTER = -1;
     private static final float DRAG_RATE = .5f;
 
@@ -51,6 +52,7 @@ public class PullRefreshLayout extends ViewGroup {
     private int mFrom;
     private boolean mNotify;
     private OnRefreshListener mListener;
+    private OnRefreshStateListener onRefreshStateListener;
     private int[] mColorSchemeColors;
 
     public int mDurationToStartPosition;
@@ -294,8 +296,9 @@ public class PullRefreshLayout extends ViewGroup {
                     if (mRefreshView.getVisibility() != View.VISIBLE) {
                         mRefreshView.setVisibility(View.VISIBLE);
                     }
-                    if (scrollTop < mTotalDragDistance) {
-                        mRefreshDrawable.setPercent(mDragPercent);
+                    mRefreshDrawable.setPercent(mDragPercent);
+                    if (onRefreshStateListener != null) {
+                        onRefreshStateListener.onRefresh();
                     }
                 }
                 setTargetOffsetTop(targetY - mCurrentOffsetTop, true);
@@ -388,22 +391,18 @@ public class PullRefreshLayout extends ViewGroup {
     }
 
     public void setRefreshing(boolean refreshing) {
-        if (mRefreshing != refreshing) {
-            setRefreshing(refreshing, false /* notify */);
-        }
+        setRefreshing(refreshing, false /* notify */);
     }
 
-    private void setRefreshing(boolean refreshing, final boolean notify) {
-        if (mRefreshing != refreshing) {
-            mNotify = notify;
-            ensureTarget();
-            mRefreshing = refreshing;
-            if (mRefreshing) {
-                mRefreshDrawable.setPercent(1f);
-                animateOffsetToCorrectPosition();
-            } else {
-                animateOffsetToStartPosition();
-            }
+    public void setRefreshing(boolean refreshing, final boolean notify) {
+        mNotify = notify;
+        ensureTarget();
+        mRefreshing = refreshing;
+        if (mRefreshing) {
+            mRefreshDrawable.setPercent(1f);
+            animateOffsetToCorrectPosition();
+        } else {
+            animateOffsetToStartPosition();
         }
     }
 
@@ -430,6 +429,9 @@ public class PullRefreshLayout extends ViewGroup {
                 mRefreshDrawable.stop();
                 mRefreshView.setVisibility(View.GONE);
                 animateOffsetToStartPosition();
+                if (onRefreshStateListener != null) {
+                    onRefreshStateListener.onFinish();
+                }
             }
             mCurrentOffsetTop = mTarget.getTop();
         }
@@ -450,6 +452,9 @@ public class PullRefreshLayout extends ViewGroup {
 //            mRefreshDrawable.stop();
             mRefreshView.setVisibility(View.GONE);
             mCurrentOffsetTop = mTarget.getTop();
+            if (onRefreshStateListener != null) {
+                onRefreshStateListener.onCancel();
+            }
         }
     };
 
@@ -523,5 +528,15 @@ public class PullRefreshLayout extends ViewGroup {
 
     public static interface OnRefreshListener {
         public void onRefresh();
+    }
+
+    public void setOnRefreshStateListener(OnRefreshStateListener onRefreshStateListener) {
+        this.onRefreshStateListener = onRefreshStateListener;
+    }
+
+    public static interface OnRefreshStateListener {
+        public void onRefresh();
+        public void onFinish();
+        public void onCancel();
     }
 }

@@ -36,7 +36,6 @@ import android.graphics.drawable.shapes.OvalShape;
 import android.support.annotation.IntDef;
 import android.support.annotation.NonNull;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.util.TypedValue;
 import android.view.View;
 import android.view.animation.AccelerateDecelerateInterpolator;
@@ -51,6 +50,7 @@ import java.util.ArrayList;
 
 /**
  * Fancy progress indicator for Material theme.
+ * #see https://github.com/baoyongzhang/android-PullRefreshLayout
  *
  * @hide
  */

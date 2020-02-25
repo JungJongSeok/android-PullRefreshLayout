@@ -14,6 +14,7 @@ import java.security.InvalidParameterException;
 
 /**
  * Created by baoyz on 14/10/31.
+ * #see https://github.com/baoyongzhang/android-PullRefreshLayout
  */
 class CirclesDrawable extends RefreshDrawable implements Runnable {
 

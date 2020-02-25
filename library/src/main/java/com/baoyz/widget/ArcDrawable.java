@@ -14,6 +14,7 @@ import android.view.animation.Transformation;
 
 /**
  * Created by baoyz on 14/11/2.
+ * #see https://github.com/baoyongzhang/android-PullRefreshLayout
  */
 class ArcDrawable extends RefreshDrawable{
 
