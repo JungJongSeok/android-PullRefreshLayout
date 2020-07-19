@@ -38,7 +38,7 @@ public class PullRefreshLayout extends ViewGroup {
     public static final int STYLE_SMARTISAN = 4;
 
     private View mTarget;
-    private ImageView mRefreshView;
+    private View mRefreshView;
     private Interpolator mDecelerateInterpolator;
     private int mTouchSlop;
     private int mSpinnerFinalOffset;
@@ -108,6 +108,9 @@ public class PullRefreshLayout extends ViewGroup {
     }
 
     public void setRefreshStyle(int type) {
+        if (!(mRefreshView instanceof ImageView)) {
+            return;
+        }
         setRefreshing(false);
         switch (type) {
             case STYLE_MATERIAL:
@@ -129,14 +132,23 @@ public class PullRefreshLayout extends ViewGroup {
                 throw new InvalidParameterException("Type does not exist");
         }
         mRefreshDrawable.setColorSchemeColors(mColorSchemeColors);
-        mRefreshView.setImageDrawable(mRefreshDrawable);
+        ((ImageView) mRefreshView).setImageDrawable(mRefreshDrawable);
+    }
+
+    public void setRefreshView(View refreshView) {
+        setRefreshing(false);
+        removeView(mRefreshView);
+        mRefreshView = refreshView;
+        addView(mRefreshView);
     }
 
     public void setRefreshDrawable(RefreshDrawable drawable) {
         setRefreshing(false);
         mRefreshDrawable = drawable;
         mRefreshDrawable.setColorSchemeColors(mColorSchemeColors);
-        mRefreshView.setImageDrawable(mRefreshDrawable);
+        if (mRefreshView instanceof ImageView) {
+            ((ImageView) mRefreshView).setImageDrawable(mRefreshDrawable)
+        }
     }
 
     public int getFinalOffset() {
