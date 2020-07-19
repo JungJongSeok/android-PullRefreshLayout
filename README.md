@@ -23,7 +23,7 @@ allprojects {
 }
 
 dependencies {
-    implementation 'com.github.JungJongSeok:android-PullRefreshLayout:v1.0.4'
+    implementation 'com.github.JungJongSeok:android-PullRefreshLayout:v1.1.0'
 }
 ```
 
